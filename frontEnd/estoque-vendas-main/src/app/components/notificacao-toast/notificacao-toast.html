@@ -1,0 +1,6 @@
+@if (authNotificacaoService.notificacaoAtual(); as notificacao) {
+  <div class="toast" [ngClass]="'toast-' + notificacao.tipo">
+    <span>{{ notificacao.mensagem }}</span>
+    <button type="button" class="toast-fechar" (click)="authNotificacaoService.fechar()">×</button>
+  </div>
+}

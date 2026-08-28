@@ -1,0 +1,148 @@
+<div class="movimentacao-container">
+  <div class="header-card">
+    <h2>Histórico de Movimentações</h2>
+    <p class="subtitulo">Auditoria de ações realizadas no sistema</p>
+  </div>
+
+  <!-- Barra de Filtros Combináveis -->
+  <div class="filtros-card">
+    <div class="form-row">
+      
+      <!-- Filtro de Período (Data Inicial e Final) -->
+      <div class="form-group">
+        <label for="dataInicio">Data Inicial</label>
+        <input type="date" id="dataInicio" [(ngModel)]="dataInicio" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="dataFim">Data Final</label>
+        <input type="date" id="dataFim" [(ngModel)]="dataFim" class="form-control" />
+      </div>
+
+      <!-- NOVO: Filtro de Módulo (TipoEntidade) -->
+      <div class="form-group">
+        <label for="filtroTipo">Módulo</label>
+        <select id="filtroTipo" [(ngModel)]="filtroTipo" class="form-control">
+          <option value="">Todos</option>
+          <option value="PRODUTO">Produto</option>
+          <option value="USUARIO">Usuário</option>
+        </select>
+      </div>
+
+      <!-- Filtro de Ação -->
+      <div class="form-group">
+        <label for="filtroAcao">Ação</label>
+        <select id="filtroAcao" [(ngModel)]="filtroAcao" class="form-control">
+          <option value="">Todas</option>
+          <option value="CRIACAO">Criação</option>
+          <option value="ATUALIZACAO">Atualização</option>
+          <option value="EXCLUSAO">Exclusão</option>
+        </select>
+      </div>
+
+      <!-- Filtro de Registro Afetado (Antes era Usuário Afetado) -->
+      <div class="form-group">
+        <label for="filtroRegistro">Registro Afetado</label>
+        <input type="text" id="filtroRegistro" [(ngModel)]="filtroRegistro" placeholder="Nome do produto ou usuário" class="form-control" />
+      </div>
+
+      <!-- Filtro de Responsável -->
+      <div class="form-group">
+        <label for="filtroResponsavel">Responsável</label>
+        <input type="text" id="filtroResponsavel" [(ngModel)]="filtroResponsavel" placeholder="Nome do responsável" class="form-control" />
+      </div>
+
+      <!-- Botões -->
+      <div class="btn-group">
+        <button class="btn btn-primary" (click)="buscarMovimentacoes()" [disabled]="carregando">
+          <span *ngIf="!carregando">Buscar</span>
+          <span *ngIf="carregando">Carregando...</span>
+        </button>
+        <button class="btn btn-secondary" (click)="limparFiltro()" [disabled]="carregando">
+          Limpar
+        </button>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Tabela de Resultados -->
+  <div class="tabela-card">
+    <!-- Estado de Loading -->
+    <div class="feedback-box" *ngIf="carregando">
+      <div class="spinner"></div>
+      <p>Carregando movimentações...</p>
+    </div>
+
+    <!-- Nenhuma busca feita ainda -->
+    <div class="feedback-box" *ngIf="!buscaRealizada && !carregando">
+      <p>Preencha os filtros acima e clique em <strong>Buscar</strong> para carregar o histórico.</p>
+    </div>
+
+    <!-- Nenhum registro encontrado -->
+    <div class="feedback-box" *ngIf="buscaRealizada && movimentacoesExibidas.length === 0 && !carregando">
+      <p>Nenhuma movimentação encontrada com os filtros selecionados.</p>
+    </div>
+
+    <!-- Tabela preenchida -->
+    <div class="table-responsive" *ngIf="movimentacoesExibidas.length > 0 && !carregando">
+      <table class="tabela-custom">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Módulo</th> 
+            <th>Responsável</th>
+            
+            <!-- COLUNA SEMPRE VISÍVEL: Retiramos o *ngIf daqui -->
+            <th>ID Registro</th> 
+            
+            <th>Registro Afetado</th>
+            <th>Ação</th>
+            <th>Campo Afetado</th>
+            <th>Data e Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mov of movimentacoesExibidas">
+            <td>{{ mov.movId }}</td>
+            
+            <!-- Módulo -->
+            <td><span class="badge cargo-badge">{{ mov.tipoEntidade }}</span></td>
+            
+            <!-- Responsável -->
+            <td><strong>{{ mov.responsavel }}</strong></td>
+            
+            <!-- CÉLULA SEMPRE VISÍVEL: O conteúdo dentro dela se adapta à entidade -->
+            <td>
+              <!-- Se NÃO for USUARIO (Ex: Produto), mostra o ID numérico normal -->
+              <span *ngIf="mov.tipoEntidade !== 'USUARIO'" class="fw-bold" style="color: #555;">
+                {{ mov.registroAfetadoId || 'N/A' }}
+              </span>
+
+              <!-- Se FOR USUARIO, mostra os 8 primeiros caracteres e esconde o resto no Tooltip -->
+              <span *ngIf="mov.tipoEntidade === 'USUARIO'" class="text-muted" [title]="'UUID Completo: ' + mov.registroAfetadoId" style="cursor: help;">
+                {{ mov.registroAfetadoId | slice:0:8 }}...
+              </span>
+            </td>
+
+            <!-- COLUNA REGISTRO AFETADO -->
+            <td class="destaque">
+              {{ mov.nomeRegistroAfetado }}
+            </td>
+
+            <!-- Ação -->
+            <td>
+              <span class="badge" [ngClass]="'badge-' + (mov.acaoMov ? mov.acaoMov.toLowerCase() : 'padrao')">
+                {{ mov.acaoMov }}
+              </span>
+            </td>
+            
+            <!-- Campo Afetado e Data -->
+            <td>{{ mov.campoAfetado || '-' }}</td>
+            <td>{{ mov.dataMov | date:'dd/MM/yyyy HH:mm' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+</div>

@@ -1,0 +1,57 @@
+<aside class="sidebar-container" [class.recolhida]="estaRecolhida">
+  
+  <!-- TOPO: Botão para abrir/fechar + Título do Sistema -->
+  <div class="sidebar-header">
+    <button type="button" class="btn-toggle" (click)="alternarSidebar()" title="Expandir/Recolher Menu">
+      <!-- Ícone de hambúrguer/seta simples -->
+      <span class="icone-menu">☰</span>
+    </button>
+    <h2 class="titulo-sistema" *ngIf="!estaRecolhida">Estoque & Vendas</h2>
+  </div>
+
+  <!-- NAVEGAÇÃO: Links das páginas -->
+  <nav class="sidebar-nav">
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="link-ativo" class="nav-item">
+          <span class="icone">📊</span>
+          <span class="texto-link" *ngIf="!estaRecolhida">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/cadastro-usuario" routerLinkActive="link-ativo" class="nav-item">
+          <span class="icone">👥</span>
+          <span class="texto-link" *ngIf="!estaRecolhida">Cadastro de usuários</span>
+        </a>
+      </li>
+      <!-- Adicione novos menus aqui futuramente (Ex: Produtos, Vendas) -->
+       <li>
+        <a routerLink="/cadastro-produto" routerLinkActive="link-ativo" class="nav-item">
+          <span class="icone">🏷️</span>
+          <span class="texto-link" *ngIf="!estaRecolhida">Cadastro de Produtos</span>
+        </a>
+       </li>
+       <li>
+        <a routerLink="/movimentacao" routerLinkActive="link-ativo" class="nav-item">
+          <span class="icone">📈</span> 
+          <span class="texto-link" *ngIf="!estaRecolhida">Movimentação</span>
+        </a>
+       </li>
+       <li>
+        <a routerLink="/forma-pagamento" routerLinkActive="link-ativo" class="nav-item">
+          <span class="icone">💲</span>
+          <span class="texto-link" *ngIf="!estaRecolhida">Formas de Pagamento</span>
+        </a>
+       </li>
+    </ul>
+  </nav>
+
+  <!-- RODAPÉ: Botão de Sair fixado na última barra -->
+  <div class="sidebar-footer">
+    <button type="button" class="btn-logout" (click)="fazerLogout()" title="Sair do Sistema">
+      <span class="icone">🚪</span>
+      <span class="texto-link" *ngIf="!estaRecolhida">Sair do Sistema</span>
+    </button>
+  </div>
+
+</aside>

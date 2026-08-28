@@ -1,0 +1,85 @@
+<div>
+  
+  <div>
+    <h2>Gerenciador de Usuarios</h2>
+    <p>Clique em um usuario da lista abaixo para editar os dados</p>
+
+    <form (submit)="executarGerenciadorUsuario()">
+      
+      <div class="form-group">
+        <label>Nome:</label>
+        <input type="text" [(ngModel)]="nomeDigitado" name="nome" placeholder="Nome do usuário" required>
+      </div>
+
+      <div class="form-group">
+        <label>E-mail:</label>
+        <input type="email" [(ngModel)]="emailDigitado" name="email" placeholder="E-mail">
+      </div>
+
+      <div class="form-group">
+        <label>Telefone:</label>
+        <input type="text" [(ngModel)]="telefoneDigitado" name="telefone" placeholder="Telefone" mask="(00) 00000-0000">
+      </div>
+
+      <div class="form-group">
+        <label>Cargo:</label>
+        <select 
+        name="cargo" 
+        id="cargo"
+        [(ngModel)]="cargoDigitado"
+        required>
+            <option value="" disabled>Selecione uma opção</option>
+            <option value="BALCONISTA">Balconista</option>
+            <option value="ADMINISTRADOR">Administrador</option>
+            <option value="GERENTE">Gerente</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Nova Senha:</label>
+        <input type="password" [(ngModel)]="senhaDigitada" name="senha" placeholder="Digite uma nova senha">
+      </div>
+
+      <button type="submit" [disabled]="carregando || !podeSalvar">
+        {{ carregando ? 'Atualizando...' : 'Salvar Alterações' }}
+      </button>
+    </form>
+  </div>
+
+  <div>
+    <h3>Usuarios Cadastrados</h3>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Telefone</th>
+          <th>Cargo</th>
+          <th>Status</th>
+          <th class="coluna-acao">Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- O *ngFor percorre a listaUsuarios e cria uma linha para cada um -->
+            <tr *ngFor="let user of listaUsuarios" 
+                (click)="selecionarUsuario(user)" 
+                [class.linha-selecionada]="user.userId === idSelecionado">
+            <td>{{ user.nome }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.telefone }}</td>
+            <td>{{ user.cargo }}</td>
+            <td>{{ user.status }}</td>
+            <td class="celila-acao">
+              <button type="button" 
+                      class="btn-inativar" 
+                      (click)="inativarUsuario(user, $event)">
+                Inativar
+              </button>
+            </td>
+            </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

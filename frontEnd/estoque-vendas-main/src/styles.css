@@ -1,0 +1,5 @@
+/* No seu style global */
+body {
+    margin: 0;
+    padding: 0;         /* Garante que nenhum espaçamento interno crie rolagem */
+}

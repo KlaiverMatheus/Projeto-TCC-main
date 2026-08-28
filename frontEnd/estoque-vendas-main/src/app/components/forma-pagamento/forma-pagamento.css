@@ -1,0 +1,225 @@
+.forma-pagamento-container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: inherit;
+  color: #1e293b;
+}
+
+.forma-pagamento-container h2 {
+  text-align: center;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.forma-pagamento-container > div:first-child {
+  margin-bottom: 1.5rem;
+}
+
+.forma-pagamento-container > div:first-child > p {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+}
+
+/* Formulário */
+
+.forma-pagamento-container form {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.85rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #8bcf8b;
+  box-shadow: 0 0 5px rgba(139, 207, 139, 0.6);
+}
+
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+/* Botão de cadastro */
+
+.forma-pagamento-container form button {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.55rem 1.2rem;
+  background-color: #8bcf8b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.forma-pagamento-container form button:hover {
+  background-color: #72c172;
+}
+
+.forma-pagamento-container form button:active {
+  transform: scale(0.98);
+}
+
+.forma-pagamento-container form button:disabled {
+  background-color: #c2e7c2;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Título da tabela */
+
+.forma-pagamento-container h3 {
+  text-align: center;
+  color: #1e293b;
+  margin-top: 1.75rem;
+  margin-bottom: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e2e8f0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* Tabela */
+
+.forma-pagamento-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+}
+
+.forma-pagamento-container thead {
+  background-color: #8bcf8b;
+  color: white;
+}
+
+.forma-pagamento-container th,
+.forma-pagamento-container td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: center;
+}
+
+.forma-pagamento-container th {
+  font-weight: 600;
+  border-bottom: 1px solid #72c172;
+}
+
+.forma-pagamento-container tbody tr {
+  transition: background-color 0.2s;
+}
+
+.forma-pagamento-container tbody tr:hover {
+  background-color: #f5fff5;
+}
+
+.coluna-acao,
+.celula-acao {
+  text-align: center;
+}
+
+/* Botão inativar */
+
+.btn-inativar {
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0.35rem 0.85rem !important;
+  background: transparent !important;
+  border: 1px solid #ef4444 !important;
+  color: #ef4444 !important;
+  border-radius: 4px !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-inativar:hover {
+  background-color: #ef4444 !important;
+  color: white !important;
+}
+
+.btn-inativar:active {
+  transform: scale(0.98);
+}
+
+.btn-inativar:disabled {
+  border-color: #cbd5e1 !important;
+  color: #94a3b8 !important;
+  background: transparent !important;
+  cursor: not-allowed;
+}
+
+/* Sem dados */
+
+.sem-dados {
+  text-align: center;
+  color: #64748b;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* Responsivo */
+
+@media (max-width: 768px) {
+  .forma-pagamento-container {
+    padding: 1rem;
+  }
+
+  .forma-pagamento-container h2 {
+    font-size: 1.25rem;
+  }
+
+  .forma-pagamento-container h3 {
+    font-size: 0.95rem;
+  }
+
+  .forma-pagamento-container table {
+    font-size: 0.8rem;
+  }
+
+  .forma-pagamento-container th,
+  .forma-pagamento-container td {
+    padding: 0.5rem 0.4rem;
+  }
+
+  .btn-inativar {
+    padding: 0.3rem 0.6rem !important;
+    font-size: 0.7rem !important;
+  }
+}

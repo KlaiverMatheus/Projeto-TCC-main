@@ -1,0 +1,85 @@
+<div>
+
+  <div>
+    <h2>Gerenciador de Produtos</h2>
+    <p>Clique em um produto da lista abaixo para editar os dados</p>
+
+    <form (submit)="executarGerenciadorProduto()">
+
+      <div class="form-group">
+        <label>Nome:</label>
+        <input type="text" [(ngModel)]="nomeDigitado" name="nome" placeholder="Nome do produto" required>
+      </div>
+
+      <div class="form-group">
+        <label>Marca:</label>
+        <input type="text" [(ngModel)]="marcaDigitada" name="marca" placeholder="Marca" required>
+      </div>
+
+      <div class="form-group">
+        <label>Código de Barras:</label>
+        <input type="text" [(ngModel)]="codBarraDigitada" name="codBarra" placeholder="Código de barras">
+      </div>
+
+      <div class="form-group">
+        <label>Quantidade:</label>
+        <input type="number" [(ngModel)]="quantidadeDigitada" name="quantidade" placeholder="Quantidade" required>
+      </div>
+
+      <div class="form-group">
+        <label>Preço de Custo:</label>
+        <input type="number" [(ngModel)]="precoCustoDigitado" name="precoCusto" placeholder="Preço de custo" step="0.01" required>
+      </div>
+
+      <div class="form-group">
+        <label>Preço de Venda:</label>
+        <input type="number" [(ngModel)]="precoVendaDigitado" name="precoVenda" placeholder="Preço de venda" step="0.01" required>
+      </div>
+
+      <button type="submit" [disabled]="carregando || !podeSalvar">
+        {{ carregando ? 'Atualizando...' : 'Salvar Alterações' }}
+      </button>
+    </form>
+  </div>
+
+  <div>
+    <h3>Produtos Cadastrados</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Marca</th>
+          <th>Código de Barras</th>
+          <th>Quantidade</th>
+          <th>Preço de Custo</th>
+          <th>Preço de Venda</th>
+          <th>Status</th>
+          <th class="coluna-acao">Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- O *ngFor percorre a listaProdutos e cria uma linha para cada um -->
+            <tr *ngFor="let produto of listaProdutos" 
+                (click)="selecionarProduto(produto)" 
+                [class.linha-selecionada]="produto.prodId === prodIdSelecionado">
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.marca }}</td>
+            <td>{{ produto.codBarra }}</td>
+            <td>{{ produto.quantidade }}</td>
+            <td>{{ produto.precoCusto }}</td>
+            <td>{{ produto.precoVenda }}</td>
+            <td>{{ produto.prodStatus }}</td>
+            <td class="celila-acao">
+              <button type="button" 
+                      class="btn-inativar" 
+                      (click)="inativarProduto(produto, $event)">
+                Inativar
+              </button>
+            </td>
+            </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

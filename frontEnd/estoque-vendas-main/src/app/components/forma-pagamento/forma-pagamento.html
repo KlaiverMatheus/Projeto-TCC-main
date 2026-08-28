@@ -1,0 +1,63 @@
+<div class="forma-pagamento-container">
+  <div>
+    <h2>Gerenciador de Formas de Pagamento</h2>
+    <p>Cadastre uma nova forma de pagamento ou gerencie as existentes abaixo</p>
+
+    <form (submit)="executarFormaPagamento()">
+      <div class="form-group">
+        <label>Descrição:</label>
+
+        <input
+          type="text"
+          [(ngModel)]="descricaoDigitado"
+          name="descricao"
+          placeholder="Ex: Cartão de Crédito, Dinheiro, Pix..."
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="carregando || !descricaoDigitado.trim()"
+      >
+        {{ carregando ? 'Cadastrando...' : 'Cadastrar Forma de Pagamento' }}
+      </button>
+    </form>
+  </div>
+
+  <div>
+    <h3>Formas de Pagamento Cadastradas</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Status</th>
+          <th class="coluna-acao">Ação</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of listarFormaPag; trackBy: trackByDescricao">
+          <td>{{ item.descricao }}</td>
+          <td>{{ item.status }}</td>
+
+          <td class="celula-acao">
+            <button
+              type="button"
+              class="btn-inativar"
+              [disabled]="isInativando(item)"
+              (click)="inativarFormaPagamento(item, $event)"
+            >
+              {{ isInativando(item) ? 'Inativando...' : 'Inativar' }}
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="listarFormaPag.length === 0">
+          <td colspan="3" class="sem-dados">Nenhuma forma de pagamento cadastrada.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

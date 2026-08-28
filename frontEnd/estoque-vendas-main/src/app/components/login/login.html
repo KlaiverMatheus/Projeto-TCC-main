@@ -1,0 +1,34 @@
+<div class="login-container">
+    <div>
+        <h2>Acesso ao sistema de Estoque e Vendas</h2>
+
+        <!-- (ngSubmit) faz o Enter dentro de qualquer input do form chamar executarLogin() -->
+        <form (ngSubmit)="executarLogin()">
+            <div class="form-group">
+                <label for="username">Usuario: </label>
+                <input 
+                    type="text"
+                    id="username"
+                    name="username"
+                    [(ngModel)]="usuarioDigitado"
+                    placeholder="Digite seu usuario"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha: </label>
+                <input 
+                    type="password"
+                    id="password"
+                    name="password"
+                    [(ngModel)]="senhaDigitada"
+                    placeholder="Digite sua senha"
+                    required>
+            </div>
+            <!-- type="submit" faz o Enter e o clique chamarem o mesmo (ngSubmit) do form -->
+            <button type="submit" [disabled]="carregando">
+                {{carregando ? 'Entrando...' : 'Entrar'}}
+            </button>
+        </form> 
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<!-- Toast fica sempre visível, em qualquer tela -->
+<app-notificacao-toast></app-notificacao-toast>
+
+<!-- Se NÃO estiver na tela de login, exibe a estrutura com Sidebar -->
+@if (mostrarSidebar) {
+  <div class="app-container">
+    <!-- Sidebar Fixa Global -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Área de Conteúdo Dinâmico (Carrega Dashboard, Usuários, etc.) -->
+    <main class="app-conteudo">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+} @else {
+  <!-- Na tela de login, exibe apenas a rota sem a Sidebar -->
+  <router-outlet></router-outlet>
+}

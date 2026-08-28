@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Ignorar arquivos compactados e anotações
+*.rar
+*.zip
+estoque-vendas/
+backEnd/Anotações.txt

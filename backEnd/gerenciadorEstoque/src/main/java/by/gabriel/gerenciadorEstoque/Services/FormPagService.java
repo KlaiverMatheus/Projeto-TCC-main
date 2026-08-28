@@ -1,0 +1,129 @@
+package by.gabriel.gerenciadorEstoque.Services;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import by.gabriel.gerenciadorEstoque.Api.DTO.FormPagDTO.Consultas.SelectFormPagStatusDTO;
+import by.gabriel.gerenciadorEstoque.Api.DTO.FormPagDTO.FormPagDTO;
+import by.gabriel.gerenciadorEstoque.Api.DTO.FormPagDTO.UpdateFormPagDTO;
+import by.gabriel.gerenciadorEstoque.Enum.FormaPag.FormaPagStatus;
+import by.gabriel.gerenciadorEstoque.Enum.Usuario.UserCargo;
+import by.gabriel.gerenciadorEstoque.Exception.FormaPag.FormPagAlreadyExistException;
+import by.gabriel.gerenciadorEstoque.Exception.FormaPag.FormPagNotExistException;
+import by.gabriel.gerenciadorEstoque.Exception.FormaPag.FormPagNotNullException;
+import by.gabriel.gerenciadorEstoque.Exception.Usuario.UserLogadoNotNull;
+import by.gabriel.gerenciadorEstoque.Exception.Usuario.UserNotFoundException;
+import by.gabriel.gerenciadorEstoque.Exception.Usuario.UserNotPermission;
+import by.gabriel.gerenciadorEstoque.Model.FormaPag.FormaPagto;
+import by.gabriel.gerenciadorEstoque.Model.Usuario.Usuario;
+import by.gabriel.gerenciadorEstoque.Repository.FormPagRespository.FormPagRepository;
+import by.gabriel.gerenciadorEstoque.Repository.Usuario.UserRepository;
+import jakarta.transaction.Transactional;
+
+@Service
+public class FormPagService {
+
+    private final FormPagRepository formPagRepository;
+    private final UserRepository userRepository;
+
+    public FormPagService(FormPagRepository formPagRepository, UserRepository userRepository) {
+        this.formPagRepository = formPagRepository;
+        this.userRepository = userRepository;
+    }
+
+    public List<SelectFormPagStatusDTO> listar() {
+
+        List<SelectFormPagStatusDTO> formaPagtos = formPagRepository.findByStatusCustom(FormaPagStatus.ATIVO);
+
+        return formaPagtos;
+
+    }
+
+    @Transactional
+    public FormaPagto cadastro(FormPagDTO dto, String usuarioLogado) {
+
+        Usuario userLogado = userRepository.findByNomeIgnoreCase(usuarioLogado)
+                .orElseThrow(() -> new UserNotFoundException("Usuario de nome: " + usuarioLogado + " Não foi encontrado"));
+
+
+        if (userLogado.getUserCargo() != null && userLogado.getUserCargo() != UserCargo.ADMINISTRADOR && userLogado.getUserCargo() != UserCargo.DEV) {
+            throw new UserNotPermission("Usuario não possui permissão para realizar está ação");
+        }
+
+        if (dto.descricao() == null || dto.descricao().isBlank()) {
+            throw new FormPagNotNullException("A descrição não pode estar vazia!");
+        }
+
+        if (formPagRepository.findByDescricaoIgnoreCase(dto.descricao()).isPresent()) {
+            throw new FormPagAlreadyExistException("Forma de pagamento já existente no sistema!");
+        }
+
+        FormaPagto formaPagto = new FormaPagto(
+                dto.descricao().toUpperCase(),
+                FormaPagStatus.ATIVO);
+
+        formPagRepository.save(formaPagto);
+        return formaPagto;
+    }
+
+    @Transactional
+    public Boolean atualizar(String descricao, UpdateFormPagDTO dto, String usuarioLogado) {
+
+        FormaPagto formaPagto;
+
+        if (usuarioLogado == null || usuarioLogado.isBlank()) {
+            throw new UserLogadoNotNull("Header de usuario no cabeçalho foi enviado como null ou vazio!");
+        }
+
+        Usuario userLogado = userRepository.findByNomeIgnoreCase(usuarioLogado)
+                .orElseThrow(() -> new UserNotFoundException("Usuario de nome: " + usuarioLogado + " Não foi encontrado"));
+
+        if (userLogado.getUserCargo() != null && userLogado.getUserCargo() != UserCargo.ADMINISTRADOR && userLogado.getUserCargo() != UserCargo.DEV) {
+
+            throw new UserNotPermission("Usuario não possui permissão para realizar está ação");
+        }
+
+        formaPagto = formPagRepository.findByDescricaoIgnoreCase(dto.descricao()).orElseThrow(() -> new FormPagNotExistException("Forma de pagamento não existente no sistema"));
+
+
+        if(dto.descricao() != null && !dto.descricao().isBlank()) {
+
+            if(formPagRepository.findByDescricaoIgnoreCase(dto.descricao()).isPresent()){
+                throw new FormPagAlreadyExistException("Forma de pagamento já existente no sistema!");
+            }
+
+            formaPagto.setDescricao(dto.descricao().toUpperCase());
+            formPagRepository.save(formaPagto);
+        }
+
+        return true;
+    }
+
+    @Transactional
+    public Boolean delecao(String descricao, String usuarioLogado) {
+
+        FormaPagto formaPagto;
+
+        if (usuarioLogado == null || usuarioLogado.isBlank()) {
+            throw new UserLogadoNotNull("Header de usuario no cabeçalho foi enviado como null ou vazio!");
+        }
+
+        Usuario userLogado = userRepository.findByNomeIgnoreCase(usuarioLogado)
+                .orElseThrow(() -> new UserNotFoundException("Usuario de nome: " + usuarioLogado + " Não foi encontrado"));
+
+        if (userLogado.getUserCargo() != null && userLogado.getUserCargo() != UserCargo.ADMINISTRADOR && userLogado.getUserCargo() != UserCargo.DEV) {
+
+            throw new UserNotPermission("Usuario não possui permissão para realizar está ação");
+        }
+
+        formaPagto = formPagRepository.findByDescricaoIgnoreCase(descricao).orElseThrow(() -> new FormPagNotExistException("Forma de pagamento com o nome: " + descricao +" não foi encontrado"));
+
+        formaPagto.setStatus(FormaPagStatus.DESATIVADO);
+        formPagRepository.save(formaPagto);
+
+        System.out.println("Forma de pagamento excluida com sucesso");
+        return true;
+    }
+
+}

@@ -1,0 +1,12 @@
+/* Layout Global para alinhar Sidebar à esquerda e Conteúdo à direita */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #ffffff;;
+}
+
+/* Área que recebe as telas das rotas */
+.app-conteudo {
+  flex: 1;
+  box-sizing: border-box;
+}

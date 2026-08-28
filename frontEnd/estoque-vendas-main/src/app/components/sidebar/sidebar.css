@@ -1,0 +1,136 @@
+/* Container Principal da Sidebar */
+.sidebar-container {
+  width: 240px;
+  height: 100vh;
+  background-color: #1e293b; /* Tom escuro elegante */
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  transition: width 0.3s ease; /* Animação suave ao abrir/fechar */
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+}
+
+/* Estado da Sidebar quando estiver recolhida */
+.sidebar-container.recolhida {
+  width: 70px;
+}
+
+/* Header (Topo) */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 18px 15px;
+  border-bottom: 1px solid #334155;
+  gap: 12px;
+}
+
+.btn-toggle {
+  background: transparent;
+  border: none;
+  color: #f8fafc;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-toggle:hover {
+  background-color: #334155;
+}
+
+.titulo-sistema {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+  color: #8bcf8b; /* Verde do seu sistema */
+}
+
+/* Navegação (Links) */
+.sidebar-nav {
+  flex: 1;
+  padding: 15px 10px;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  color: #94a3b8;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-bottom: 5px;
+}
+
+.nav-item:hover {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+/* Destaque do Link Ativo (onde o usuário está navegando) */
+.link-ativo {
+  background-color: #8bcf8b !important;
+  color: #0f172a !important;
+  font-weight: 700;
+}
+
+.icone {
+  font-size: 18px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.texto-link {
+  white-space: nowrap;
+}
+
+/* Rodapé (Botão Sair) na última posição */
+.sidebar-footer {
+  padding: 15px 10px;
+  border-top: 1px solid #334155;
+  margin-top: auto; /* Empurra o botão de logout para o final absoluto da tela */
+}
+
+.btn-logout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  background-color: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+/* Ajustes visuais no botão de sair quando recolhida */
+.recolhida .btn-logout {
+  justify-content: center;
+  padding: 12px 0;
+  border: none;
+}
