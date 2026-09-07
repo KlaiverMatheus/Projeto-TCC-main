@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cliente")
-@CrossOrigin(origins = "*") // Ajuste a origem conforme a configuração do seu frontend Angular
 public class ClienteController {
 
     private final ClienteService clienteService;
@@ -32,29 +31,26 @@ public class ClienteController {
 
     // --- CADASTRO DE CLIENTE ---
     @PostMapping("/cadastrar")
-    public ResponseEntity<Cliente> cadastrarCliente(@RequestBody ClienteDTO dto, Principal principal) {
-        // principal.getName() extrai o nome (ou e-mail) do usuário logado via Spring Security/JWT
-        String usuarioLogado = principal.getName();
+    public ResponseEntity<Cliente> cadastrarCliente(@RequestBody ClienteDTO dto, Principal principal,  @RequestHeader("X-Usuario-Logado") String userLogado) {
 
-        Cliente novoCliente = clienteService.cadastroCliente(dto, usuarioLogado);
+
+        Cliente novoCliente = clienteService.cadastroCliente(dto, userLogado);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
     }
 
     // --- ATUALIZAÇÃO DE CLIENTE ---
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody ClienteDTO dto, Principal principal) {
-        String usuarioLogado = principal.getName();
+    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody ClienteDTO dto, Principal principal,@RequestHeader("X-Usuario-Logado") String userLogado) {
 
-        Cliente clienteAtualizado = clienteService.atualizarCliente(id, dto, usuarioLogado);
+        Cliente clienteAtualizado = clienteService.atualizarCliente(id, dto, userLogado);
         return ResponseEntity.ok(clienteAtualizado);
     }
 
     // --- DELEÇÃO LÓGICA DE CLIENTE ---
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<String> deletarCliente(@PathVariable Long id, Principal principal) {
-        String usuarioLogado = principal.getName();
+    public ResponseEntity<String> deletarCliente(@PathVariable Long id, Principal principal, @RequestHeader("X-Usuario-Logado") String userLogado) {
 
-        clienteService.deletarCliente(id, usuarioLogado);
+        clienteService.deletarCliente(id, userLogado);
         return ResponseEntity.ok("Cliente inativado com sucesso!");
     }
 }

@@ -44,6 +44,12 @@
         </a>
        </li>
        <li>
+          <a routerLink="/servicos" routerLinkActive="link-ativo" class="nav-item">
+            <span class="icone">⚙️​</span>
+            <span class="text-link" *ngIf="!estaRecolhida">Serviços</span>
+          </a>
+       </li>
+       <li>
         <a routerLink="/forma-pagamento" routerLinkActive="link-ativo" class="nav-item">
           <span class="icone">💲</span>
           <span class="texto-link" *ngIf="!estaRecolhida">Formas de Pagamento</span>

@@ -54,17 +54,23 @@ public class ProdService {
         }
 
         if(dto.nome() == null || dto.nome().isBlank()) throw new NomeProdVazioException("Nome obrigatório do produto não preenchido");
+
         if(dto.marca() == null || dto.marca().isBlank()) throw new MarcaNotNullException("Marca não pode estar vazia");
+
         if (produtoRepository.findByNomeIgnoreCase(dto.nome()).isPresent()){
             throw new NomeProdJaExistenteException("Produto já registrado com este nome");
         }
-        if(dto.codBarra() == null || dto.codBarra().length() < 13) throw new CodBarraVazioException("Código de barras inválido");
+
+        if(dto.codBarra() == null || dto.codBarra().length() < 13) throw new CodBarraMenorException("Código de barras inválido menor que 13 digitos");
+
         if (produtoRepository.findByCodBarraIgnoreCase(dto.codBarra()).isPresent()) {
             throw new CodBarraExistenteException("Código de barras já registrado");
         }
+
         if(dto.quantidade() == null || dto.quantidade() <= 0) throw new QuantidadeMenorZeroException("Quantidade deve ser maior que zero");
+
         if(dto.precoCusto() == null || dto.precoVenda() == null) {
-            throw new IllegalArgumentException("Preços não podem ser nulos");
+            throw new PrecosNotNullException("Preços não podem ser nulos");
         }
 
         Produto produto = new Produto(

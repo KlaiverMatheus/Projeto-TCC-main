@@ -30,9 +30,11 @@ public class SecurityConfig {
 
                     .requestMatchers("/formPag/**").permitAll()
 
-                    .requestMatchers("/venda/**").permitAll()
+                    .requestMatchers("/pedido/**").permitAll()
 
                     .requestMatchers("/cliente/**").permitAll()
+
+                    .requestMatchers("/servicos/**").permitAll()
 
                 // Qualquer outra requisição exige autenticação
                 .anyRequest().authenticated()

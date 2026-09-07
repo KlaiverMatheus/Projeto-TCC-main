@@ -2,6 +2,10 @@ package by.gabriel.gerenciadorEstoque.Services;
 
 import java.util.List;
 
+import by.gabriel.gerenciadorEstoque.Enum.Movimentacao.AcaoMovimentacao;
+import by.gabriel.gerenciadorEstoque.Enum.Movimentacao.TipoEntidade;
+import by.gabriel.gerenciadorEstoque.Model.Movimentacao.Movimentacao;
+import by.gabriel.gerenciadorEstoque.Repository.Movimentacao.MovimentacaoRepository;
 import org.springframework.stereotype.Service;
 
 import by.gabriel.gerenciadorEstoque.Api.DTO.FormPagDTO.Consultas.SelectFormPagStatusDTO;
@@ -24,12 +28,14 @@ import jakarta.transaction.Transactional;
 @Service
 public class FormPagService {
 
+    private final MovimentacaoRepository movimentacaoRepository;
     private final FormPagRepository formPagRepository;
     private final UserRepository userRepository;
 
-    public FormPagService(FormPagRepository formPagRepository, UserRepository userRepository) {
+    public FormPagService(FormPagRepository formPagRepository, UserRepository userRepository, MovimentacaoRepository movimentacaoRepository) {
         this.formPagRepository = formPagRepository;
         this.userRepository = userRepository;
+        this.movimentacaoRepository = movimentacaoRepository;
     }
 
     public List<SelectFormPagStatusDTO> listar() {
@@ -64,6 +70,17 @@ public class FormPagService {
                 FormaPagStatus.ATIVO);
 
         formPagRepository.save(formaPagto);
+
+        movimentacaoRepository.save(new Movimentacao(
+                AcaoMovimentacao.CRIACAO,
+                TipoEntidade.FORMA_PAGAMENTO,
+                null,
+                formaPagto.getId(),
+                formaPagto.getDescricao(),
+                "NENHUM",
+                userLogado)
+        );
+
         return formaPagto;
     }
 
@@ -95,6 +112,16 @@ public class FormPagService {
 
             formaPagto.setDescricao(dto.descricao().toUpperCase());
             formPagRepository.save(formaPagto);
+
+            movimentacaoRepository.save(new Movimentacao(
+                    AcaoMovimentacao.ATUALIZACAO,
+                    TipoEntidade.FORMA_PAGAMENTO,
+                    null,
+                    formaPagto.getId(),
+                    formaPagto.getDescricao(),
+                    "DESCRIÇÃO",
+                    userLogado
+            ));
         }
 
         return true;
@@ -122,7 +149,16 @@ public class FormPagService {
         formaPagto.setStatus(FormaPagStatus.DESATIVADO);
         formPagRepository.save(formaPagto);
 
-        System.out.println("Forma de pagamento excluida com sucesso");
+        movimentacaoRepository.save(new Movimentacao(
+                AcaoMovimentacao.EXCLUSAO,
+                TipoEntidade.FORMA_PAGAMENTO,
+                null,
+                formaPagto.getId(),
+                formaPagto.getDescricao(),
+                "NENHUM",
+                userLogado
+        ));
+
         return true;
     }
 
