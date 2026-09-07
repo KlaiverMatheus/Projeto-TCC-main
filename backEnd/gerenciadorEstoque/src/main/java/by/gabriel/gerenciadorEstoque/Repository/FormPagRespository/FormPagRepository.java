@@ -16,6 +16,8 @@ public interface FormPagRepository extends JpaRepository<FormaPagto, Long> {
 
     Optional<FormaPagto> findByDescricaoIgnoreCase(String descricao);
 
+    boolean existsByDescricaoIgnoreCaseAndStatus(String descricao, FormaPagStatus status);
+
     @Query("""
            SELECT new by.gabriel.gerenciadorEstoque.Api.DTO.FormPagDTO.Consultas.SelectFormPagStatusDTO(
                fp.id, 

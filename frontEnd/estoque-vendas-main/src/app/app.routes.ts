@@ -7,11 +7,13 @@ import { CadastroProduto } from './components/cadastro-produto/cadastro-produto'
 import { Movimentacao } from './components/movimentacao/movimentacao';
 import { FormaPagamento } from './components/forma-pagamento/forma-pagamento';
 import { authGuard } from './guards/auth-guard';
+import { CadastroCliente } from './components/cadastro-cliente/cadastro-cliente';
 
 //aqui criamos as rotas das paginas
 export const routes: Routes = [
     {path: '', component: Login},
     {path: 'dashboard', component: Dashboard, canActivate: [authGuard]},
+    {path: 'cadastro-cliente', component: CadastroCliente, canActivate: [authGuard]},
     {path: 'cadastro-usuario', component: CadastroUsuario, canActivate: [authGuard]},
     {path: 'cadastro-produto', component: CadastroProduto, canActivate: [authGuard]},
     {path: 'movimentacao', component: Movimentacao, canActivate: [authGuard]},

@@ -32,6 +32,8 @@ public class SecurityConfig {
 
                     .requestMatchers("/venda/**").permitAll()
 
+                    .requestMatchers("/cliente/**").permitAll()
+
                 // Qualquer outra requisição exige autenticação
                 .anyRequest().authenticated()
             );

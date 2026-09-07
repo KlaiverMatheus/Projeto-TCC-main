@@ -55,7 +55,7 @@ public class FormPagService {
             throw new FormPagNotNullException("A descrição não pode estar vazia!");
         }
 
-        if (formPagRepository.findByDescricaoIgnoreCase(dto.descricao()).isPresent()) {
+        if (formPagRepository.existsByDescricaoIgnoreCaseAndStatus(dto.descricao(), FormaPagStatus.ATIVO)) {
             throw new FormPagAlreadyExistException("Forma de pagamento já existente no sistema!");
         }
 
